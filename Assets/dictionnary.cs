@@ -15,7 +15,7 @@ public class dictionnary : MonoBehaviour {
         ""
     };
 
-    public static readonly string[] _morseCode = new string[26]
+    public static readonly string[] MorseCode = new string[26]
     {
         ".-",
         "-...",
@@ -44,6 +44,8 @@ public class dictionnary : MonoBehaviour {
         "-.--",
         "--.."
         };
+
+    public static readonly  char[] Alphabet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
     public static readonly string[][] MorseToOwO = new string[][] 
     {

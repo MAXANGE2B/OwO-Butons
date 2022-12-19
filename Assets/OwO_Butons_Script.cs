@@ -4,22 +4,16 @@ using UnityEngine;
 using KModkit;
 using Newtonsoft.Json;
 using Rnd = UnityEngine.Random;
+using System;
 
-public class OwO_Butons_Script : MonoBehaviour 
+public class OwO_Butons_Script : MonoBehaviour
 {
 
-    public class ModSettingsJSON
-    {
-        public float TimeLimit;
-        public int _stageCount;
-    }
-
+   
 
     public KMBombInfo Bomb;
     public KMAudio Audio;
-    public KMBombModule Module;
-    public KMColorblindMode Colorblind;
-    public KMModSettings modSettings;
+    public KMBombModule Module; 
 
     public KMSelectable[] Buttons;
     public Material[] LEDColors;
@@ -37,6 +31,7 @@ public class OwO_Butons_Script : MonoBehaviour
     private int _buttonOrder3;
     private bool _F;
     private int _stage;
+    private bool _solve;
 
     static int _moduleIdCounter = 1;
     int _moduleID = 0;
@@ -56,7 +51,7 @@ public class OwO_Butons_Script : MonoBehaviour
     }
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         GetEdgework();
         Initialize();
@@ -64,6 +59,7 @@ public class OwO_Butons_Script : MonoBehaviour
 
     private void Initialize()
     {
+        _solve = false;
         _morse = Rnd.Range(0, 5);
         _owo = Rnd.Range(0, 17);
         if (_F)
@@ -72,8 +68,8 @@ public class OwO_Butons_Script : MonoBehaviour
             {
                 _owo = Rnd.Range(0, 17);
             }
-        }  
-        if(!_F)
+        }
+        if (!_F)
         {
             while (_owo == 4 || _owo == 6 || _owo == 8 || _owo == 13 || _owo == 15 || _owo == 17)
             {
@@ -86,19 +82,20 @@ public class OwO_Butons_Script : MonoBehaviour
         _buttonOrder3 = int.Parse(dictionnary.MorseToOwO[_owo][_morse][2].ToString());
         Log("{0}", _buttonOrder1);
         Log("{0}", _buttonOrder2);
-        Log("{0}" ,_buttonOrder3);
+        Log("{0}", _buttonOrder3);
         Log("{0}", _morseword);
         ButtonsText[_buttonOrder1 - 1].text = (dictionnary.OwOToButtons[_owo][0]).ToString();
         ButtonsText[_buttonOrder2 - 1].text = (dictionnary.OwOToButtons[_owo][1]).ToString();
         ButtonsText[_buttonOrder3 - 1].text = (dictionnary.OwOToButtons[_owo][2]).ToString();
         _stage = 1;
+        StartCoroutine(LightFlash());
     }
 
     private void GetEdgework()
     {
-        
-        _F = Bomb.GetSerialNumber().Contains("F"); 
-        
+
+        _F = Bomb.GetSerialNumber().Contains("F");
+
         if (_F)
         {
             Debug.Log("F");
@@ -127,38 +124,39 @@ public class OwO_Butons_Script : MonoBehaviour
             {
                 StartCoroutine(animateLED(ButtonsLED[_pressButton], true));
                 _stage++;
-                
+                yield break;
             }
-            else //if (_pressButton + 1 != _buttonOrder1)
+            else
             {
                 StartCoroutine(Incorect());
             }
-            
+
         }
-        
+
         if (_stage == 2)
         {
             if (_pressButton == (_buttonOrder2 - 1))
             {
                 StartCoroutine(animateLED(ButtonsLED[_pressButton], true));
                 _stage++;
-                
+                yield break;
             }
-            else //if (_pressButton + 1 != _buttonOrder2)
+            else 
             {
                 StartCoroutine(Incorect());
             }
 
         }
-        
+
         if (_stage == 3)
         {
             if (_pressButton == (_buttonOrder3 - 1))
             {
                 StartCoroutine(animateLED(ButtonsLED[_pressButton], true));
                 StartCoroutine(Solved());
+                yield break;
             }
-            
+
 
         }
         yield return null;
@@ -168,15 +166,16 @@ public class OwO_Butons_Script : MonoBehaviour
     {
         Module.HandleStrike();
         StartCoroutine(animateLED(ButtonsLED[_pressButton], false));
-
         yield return null;
     }
 
     private IEnumerator Solved()
     {
         Module.HandlePass();
-
-
+        for (int i = 0; i < ButtonsTransforms.Length; i++)
+        {
+            StartCoroutine(animateButton(ButtonsTransforms[i], true));
+        }
         yield return null;
     }
 
@@ -196,7 +195,29 @@ public class OwO_Butons_Script : MonoBehaviour
         }
         else
             LED.material = LEDColors[2];
+    }
 
+    IEnumerator LightFlash()
+    {
+        string word = _morseword;
+        while (true)
+        {
+            foreach (char c in word)
+            {
+                string morse = dictionnary.MorseCode[Array.IndexOf(dictionnary.Alphabet, c)];
+                foreach (char symbol in morse)
+                {
+                    LED.material = LEDColors[3];
+                    //morseLight.SetActive(true);
+                    yield return new WaitForSeconds(symbol == '.' ? 0.25f : 0.75f);
+                    LED.material = LEDColors[0];
+                    //morseLight.SetActive(false);
+                    yield return new WaitForSeconds(0.25f);
+                }
+                yield return new WaitForSeconds(0.75f);
+            }
+            yield return new WaitForSeconds(1.5f);
+        }
     }
 
     private IEnumerator animateButton(Transform btn, bool _s)
@@ -212,15 +233,26 @@ public class OwO_Butons_Script : MonoBehaviour
         {
             yield return null;
             elapsed += Time.deltaTime;
-            
-           
-                btn.localPosition = new Vector3(originalPosition.x, (endValue - startValue) * elapsed / duration + startValue, originalPosition.z);
-            
+
+
+            btn.localPosition = new Vector3(originalPosition.x, (endValue - startValue) * elapsed / duration + startValue, originalPosition.z);
+
         }
         btn.localPosition = new Vector3(originalPosition.x, originalPosition.y, originalPosition.z);
         if (_s)
         {
-            btn.localPosition = new Vector3(originalPosition.x, -0.05f, originalPosition.z);
+
+            elapsed = 0f;
+            while (elapsed < duration)
+            {
+                yield return null;
+                elapsed += Time.deltaTime;
+
+
+                btn.localPosition = new Vector3(originalPosition.x, (-0.05f - startValue) * elapsed / duration + startValue, originalPosition.z);
+
+            }
+            ButtonsText[3].text = dictionnary.OwO[_owo];        
         }
     }
 }

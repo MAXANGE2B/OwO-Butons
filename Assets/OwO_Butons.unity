@@ -167,11 +167,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114764383301551200, guid: 601b51a8eeaa7234281fcb4c09425dcd,
-        type: 2}
-      propertyPath: LEDColors.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4380311363750284, guid: 601b51a8eeaa7234281fcb4c09425dcd, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -204,21 +199,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114764383301551200, guid: 601b51a8eeaa7234281fcb4c09425dcd,
-        type: 2}
-      propertyPath: LEDColors.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 935bb5c8b474db049908d1d19deb7993, type: 2}
-    - target: {fileID: 114764383301551200, guid: 601b51a8eeaa7234281fcb4c09425dcd,
-        type: 2}
-      propertyPath: LEDColors.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: 1515b0918013c15468573c8cce654ecb, type: 2}
-    - target: {fileID: 114764383301551200, guid: 601b51a8eeaa7234281fcb4c09425dcd,
-        type: 2}
-      propertyPath: LEDColors.Array.data[2]
-      value: 
-      objectReference: {fileID: 2100000, guid: 8c2541a39c73b5a4588c4e95ade4cdda, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 601b51a8eeaa7234281fcb4c09425dcd, type: 2}
   m_IsPrefabParent: 0
