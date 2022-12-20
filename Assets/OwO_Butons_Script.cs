@@ -79,17 +79,17 @@ public class OwO_Butons_Script : MonoBehaviour
 
         _stage = 1;
         StartCoroutine(LightFlash());
+        
+        Log("The flashing word is {0}", _morseWord);
+        Log("The button labels are {0}, {1} and {2}", ButtonsText[0].text, ButtonsText[1].text, ButtonsText[2].text);
+        Log("Serial Number {0} contain an F", _F ? "does" : "does not");
+        Log("The correct order of button presses is {0}", Dictionary.MorseToOwO[_owo][_morse]);
     }
 
     private void GetEdgework()
     {
 
         _F = Bomb.GetSerialNumber().Contains("F");
-
-        if (_F)
-        {
-            
-        }
     }
 
     private void Press(int index)
@@ -115,12 +115,14 @@ public class OwO_Butons_Script : MonoBehaviour
             case 1:
                 if (_pressButton == (_buttonOrder[0] - 1))
                 {
+                    Log("Pressed Button {0}. Correct!", _pressButton + 1);
                     StartCoroutine(AnimateLED(ButtonsLED[_pressButton], true));
                     _stage++;
                     break;
                 }
                 else
                 {
+                    Log("Pressed Button {0}. Wrong, striking. Expected {1}", _pressButton + 1, _buttonOrder[0]);
                     StartCoroutine(Incorect());
                 }
                 break;
@@ -128,12 +130,14 @@ public class OwO_Butons_Script : MonoBehaviour
             case 2:
                 if (_pressButton == (_buttonOrder[1] - 1))
                 {
+                    Log("Pressed Button {0}. Correct!", _pressButton + 1);
                     StartCoroutine(AnimateLED(ButtonsLED[_pressButton], true));
                     _stage++;
                     break;
                 }
                 else
                 {
+                    Log("Pressed Button {0}. Wrong, striking. Expected {1}", _pressButton + 1, _buttonOrder[1]);
                     StartCoroutine(Incorect());
                 }
                 break;
@@ -141,6 +145,7 @@ public class OwO_Butons_Script : MonoBehaviour
             case 3:
                 if (_pressButton == (_buttonOrder[2] - 1))
                 {
+                    Log("Pressed Button {0}. Correct! Module solved!", _pressButton + 1);
                     StartCoroutine(AnimateLED(ButtonsLED[_pressButton], true));
                     StartCoroutine(Solved());
                     break;
