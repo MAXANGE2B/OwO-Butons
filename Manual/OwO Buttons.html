@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+    <title>OwO Buttons — Keep Talking and Nobody Explodes Module</title>
+    <link rel="stylesheet" type="text/css" href="css/font.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/ktane-utils.js"></script>
+    <style>
+        table {
+            margin: 1em auto;
+        }
+        tr.cyan{
+            background-color:#66ffff;
+        }
+        tr.orange{
+            background-color:#ff6323;
+        }
+        img.morseChart{
+            width:500px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">OwO Buttons</span>
+            </div>
+            <div class="page-content">
+                <img src="img/Component/OwO Buttons.svg" class="diagram">
+                <h2>On the Subject of OwO Buttons</h2>
+                <p class="flavour-text">Notices your buttons OwO</p>
+
+                <ul>
+                <li>An OwO Buttons Module displays 3 Buttons each with a letter, as well as an LED flashing morse.</li>
+                <li>Depending on the letters and the morse shown, press the three buttons in a specific order to solve the module.</li>
+                <li>If you press the wrong button, the module will strike. All buttons that had been correctly pressed will stay pressed.</li>
+                </ul>
+                <ul>
+                <li>To get the order of button presses, reference the table on page 2.</li>
+                <li>Buttons are numbered in reading order.</li>
+                <li>The column is given by the word flashed by the LED. While the row is determined by the button labels.</li>
+                <li>The position of the button labels are shuffled randomly so multiple rows might apply in some cases.</li>
+				<li>In a case of such ambiguity: If the serial number contains an F use the corresponding orange row, otherwise use the cyan row.</li>
+                </ul>
+                <img class="morseChart" src="img/Morse Code/morse-signals.svg">
+            </div>
+            <div class="page-footer relative-footer">Page 1 of 2</div>
+        </div>
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">OwO Buttons</span>
+            </div>
+            <div class="page-content">
+                <table>
+                <tr><th></th><th>Protogen</th><th>Dragon</th><th>Raccoon</th><th>Otter</th><th>Rabbit</th><th>Ferret</th></tr>
+                <tr>             <th>OwO</th><td>123</td><td>213</td><td>231</td><td>321</td><td>312</td><td>132</td></tr>
+                <tr>             <th>UwU</th><td>213</td><td>123</td><td>321</td><td>312</td><td>132</td><td>231</td></tr>
+                <tr>             <th>QwQ</th><td>321</td><td>132</td><td>213</td><td>132</td><td>231</td><td>123</td></tr>
+                <tr class="cyan"><th>QwO</th><td>231</td><td>321</td><td>312</td><td>123</td><td>132</td><td>213</td></tr>
+                <tr class="orange"> <th>OwQ</th><td>312</td><td>123</td><td>132</td><td>231</td><td>321</td><td>213</td></tr>
+                <tr class="cyan"><th>QwU</th><td>132</td><td>321</td><td>213</td><td>312</td><td>123</td><td>231</td></tr>
+                <tr class="orange"> <th>UwQ</th><td>312</td><td>213</td><td>231</td><td>132</td><td>321</td><td>123</td></tr>
+                <tr class="cyan"><th>OwU</th><td>132</td><td>231</td><td>321</td><td>123</td><td>231</td><td>312</td></tr>
+                <tr class="orange"> <th>UwO</th><td>321</td><td>123</td><td>231</td><td>132</td><td>312</td><td>213</td></tr>
+                <tr>             <th>OvO</th><td>312</td><td>213</td><td>132</td><td>321</td><td>231</td><td>123</td></tr>
+                <tr>             <th>UvU</th><td>321</td><td>231</td><td>123</td><td>312</td><td>213</td><td>132</td></tr>
+                <tr>             <th>QvQ</th><td>123</td><td>312</td><td>132</td><td>321</td><td>231</td><td>213</td></tr>
+                <tr class="cyan"><th>QvO</th><td>213</td><td>321</td><td>231</td><td>123</td><td>312</td><td>132</td></tr>
+                <tr class="orange"> <th>OvQ</th><td>312</td><td>321</td><td>123</td><td>213</td><td>132</td><td>231</td></tr>
+                <tr class="cyan"><th>QvU</th><td>132</td><td>231</td><td>213</td><td>312</td><td>321</td><td>123</td></tr>
+                <tr class="orange"> <th>UvQ</th><td>231</td><td>321</td><td>132</td><td>123</td><td>213</td><td>312</td></tr>
+                <tr class="cyan"><th>OvU</th><td>213</td><td>312</td><td>123</td><td>231</td><td>321</td><td>132</td></tr>
+                <tr class="orange"> <th>UvO</th><td>231</td><td>321</td><td>132</td><td>213</td><td>312</td><td>123</td></tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">Page 2 of 2</div>
+        </div>
+    </div>
+</body>
+</html>
