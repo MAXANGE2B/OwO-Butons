@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class dictionnary : MonoBehaviour {
+public class Dictionary : MonoBehaviour
+{
 
     public static readonly string[] MorseCodeWords =
     {
-        "furries",
-        "fursuit",
-        "fursona",
-        "",
-        "",
-        ""
+        "protogen",
+        "dragon",
+        "raccoon",
+        "otter",
+        "rabbit",
+        "ferret"
     };
 
     public static readonly string[] MorseCode = new string[26]
@@ -43,11 +44,39 @@ public class dictionnary : MonoBehaviour {
         "-..-",
         "-.--",
         "--.."
-        };
+    };
 
-    public static readonly  char[] Alphabet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+    public static readonly char[] Alphabet =
+    {
+        'a',
+        'b',
+        'c',
+        'd',
+        'e',
+        'f',
+        'g',
+        'h',
+        'i',
+        'j',
+        'k',
+        'l',
+        'm',
+        'n',
+        'o',
+        'p',
+        'q',
+        'r',
+        's',
+        't',
+        'u',
+        'v',
+        'w',
+        'x',
+        'y',
+        'z'
+    };
 
-    public static readonly string[][] MorseToOwO = new string[][] 
+    public static readonly string[][] MorseToOwO = new string[][]
     {
        new string[] {"123", "213", "231", "321", "312", "132" },
        new string[] {"213", "123", "321", "312", "132", "231" },
@@ -71,7 +100,7 @@ public class dictionnary : MonoBehaviour {
 
     public static readonly string[][] OwOToButtons = new string[][]
     {
-       new string[] {"O", "w", "O" }, 
+       new string[] {"O", "w", "O" },
        new string[] {"U", "w", "U" },
        new string[] {"Q", "w", "Q" },
        new string[] {"Q", "w", "O" },
@@ -90,6 +119,7 @@ public class dictionnary : MonoBehaviour {
        new string[] {"O", "v", "U" },
        new string[] {"U", "v", "O" }
     };
+
     public static readonly string[] OwO =
     {
         "OwO",

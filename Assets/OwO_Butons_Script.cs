@@ -9,11 +9,9 @@ using System;
 public class OwO_Butons_Script : MonoBehaviour
 {
 
-   
-
     public KMBombInfo Bomb;
     public KMAudio Audio;
-    public KMBombModule Module; 
+    public KMBombModule Module;
 
     public KMSelectable[] Buttons;
     public Material[] LEDColors;
@@ -24,14 +22,12 @@ public class OwO_Butons_Script : MonoBehaviour
 
     private int _morse;
     private int _owo;
-    private string _morseword;
+    private string _morseWord;
     private int _pressButton;
-    private int _buttonOrder1;
-    private int _buttonOrder2;
-    private int _buttonOrder3;
+    private int[] _buttonOrder = new int[3];
     private bool _F;
     private int _stage;
-    private bool _solve;
+    private bool _Solve;
 
     static int _moduleIdCounter = 1;
     int _moduleID = 0;
@@ -59,34 +55,28 @@ public class OwO_Butons_Script : MonoBehaviour
 
     private void Initialize()
     {
-        _solve = false;
+        _Solve = false;
         _morse = Rnd.Range(0, 5);
-        _owo = Rnd.Range(0, 17);
+        int Helpy = Rnd.Range(0, 11);
+        int[] CaseYesF = new int[] { 0, 1, 2, 4, 6, 8, 9, 10, 11, 13, 15, 17 };
+        int[] CaseNoF = new int[] { 0, 1, 2, 3, 5, 7, 9, 10, 11, 12, 14, 16 };
         if (_F)
         {
-            while (_owo == 3 || _owo == 5 || _owo == 7 || _owo == 12 || _owo == 14 || _owo == 16)
-            {
-                _owo = Rnd.Range(0, 17);
-            }
+            _owo = CaseYesF[Helpy];
         }
+
         if (!_F)
         {
-            while (_owo == 4 || _owo == 6 || _owo == 8 || _owo == 13 || _owo == 15 || _owo == 17)
-            {
-                _owo = Rnd.Range(0, 17);
-            }
+            _owo = CaseNoF[Helpy];
         }
-        _morseword = dictionnary.MorseCodeWords[_morse];
-        _buttonOrder1 = int.Parse(dictionnary.MorseToOwO[_owo][_morse][0].ToString());
-        _buttonOrder2 = int.Parse(dictionnary.MorseToOwO[_owo][_morse][1].ToString());
-        _buttonOrder3 = int.Parse(dictionnary.MorseToOwO[_owo][_morse][2].ToString());
-        Log("{0}", _buttonOrder1);
-        Log("{0}", _buttonOrder2);
-        Log("{0}", _buttonOrder3);
-        Log("{0}", _morseword);
-        ButtonsText[_buttonOrder1 - 1].text = (dictionnary.OwOToButtons[_owo][0]).ToString();
-        ButtonsText[_buttonOrder2 - 1].text = (dictionnary.OwOToButtons[_owo][1]).ToString();
-        ButtonsText[_buttonOrder3 - 1].text = (dictionnary.OwOToButtons[_owo][2]).ToString();
+
+        _morseWord = Dictionary.MorseCodeWords[_morse];
+        for (int i = 0; i < _buttonOrder.Length; i++)
+        {
+            _buttonOrder[i] = int.Parse(Dictionary.MorseToOwO[_owo][_morse][i].ToString());
+            ButtonsText[_buttonOrder[i] - 1].text = (Dictionary.OwOToButtons[_owo][i]).ToString();
+        }
+
         _stage = 1;
         StartCoroutine(LightFlash());
     }
@@ -98,92 +88,91 @@ public class OwO_Butons_Script : MonoBehaviour
 
         if (_F)
         {
-            Debug.Log("F");
+            
         }
     }
 
-    private void Press(int index) // detect if a press as occurre and start a play set
+    private void Press(int index)
     {
-        Buttons[index].AddInteractionPunch();
-        StartCoroutine(animateButton(ButtonsTransforms[index], false));
-        _pressButton = index;
-        Debug.Log(index);
-        Log("stage {0}", _stage);
-        StartCoroutine(GameLoop());
+        if (!_Solve)
+        {
+            Buttons[index].AddInteractionPunch();
+            StartCoroutine(AnimateButton(ButtonsTransforms[index], _Solve));
+            _pressButton = index;
+            Verify();
+        }
     }
+
     private void Log(string message, params object[] args)
     {
         Debug.LogFormat("[OwO Buttons #{0}] {1}", _moduleID, string.Format(message, args));
     }
 
-    private IEnumerator GameLoop()
+    private void Verify()
     {
-        if (_stage == 1)
+        switch (_stage)
         {
-            if (_pressButton == (_buttonOrder1 - 1))
-            {
-                StartCoroutine(animateLED(ButtonsLED[_pressButton], true));
-                _stage++;
-                yield break;
-            }
-            else
-            {
-                StartCoroutine(Incorect());
-            }
+            case 1:
+                if (_pressButton == (_buttonOrder[0] - 1))
+                {
+                    StartCoroutine(AnimateLED(ButtonsLED[_pressButton], true));
+                    _stage++;
+                    break;
+                }
+                else
+                {
+                    StartCoroutine(Incorect());
+                }
+                break;
 
+            case 2:
+                if (_pressButton == (_buttonOrder[1] - 1))
+                {
+                    StartCoroutine(AnimateLED(ButtonsLED[_pressButton], true));
+                    _stage++;
+                    break;
+                }
+                else
+                {
+                    StartCoroutine(Incorect());
+                }
+                break;
+
+            case 3:
+                if (_pressButton == (_buttonOrder[2] - 1))
+                {
+                    StartCoroutine(AnimateLED(ButtonsLED[_pressButton], true));
+                    StartCoroutine(Solved());
+                    break;
+                }
+                break;
         }
-
-        if (_stage == 2)
-        {
-            if (_pressButton == (_buttonOrder2 - 1))
-            {
-                StartCoroutine(animateLED(ButtonsLED[_pressButton], true));
-                _stage++;
-                yield break;
-            }
-            else 
-            {
-                StartCoroutine(Incorect());
-            }
-
-        }
-
-        if (_stage == 3)
-        {
-            if (_pressButton == (_buttonOrder3 - 1))
-            {
-                StartCoroutine(animateLED(ButtonsLED[_pressButton], true));
-                StartCoroutine(Solved());
-                yield break;
-            }
-
-
-        }
-        yield return null;
     }
 
     private IEnumerator Incorect()
     {
         Module.HandleStrike();
-        StartCoroutine(animateLED(ButtonsLED[_pressButton], false));
+        StartCoroutine(AnimateLED(ButtonsLED[_pressButton], false));
         yield return null;
     }
 
     private IEnumerator Solved()
     {
+        _Solve = true;
         Module.HandlePass();
+        //Audio.PlaySoundAtTransform("OwO", transform);
         for (int i = 0; i < ButtonsTransforms.Length; i++)
         {
-            StartCoroutine(animateButton(ButtonsTransforms[i], true));
+            StartCoroutine(AnimateButton(ButtonsTransforms[i], _Solve));
         }
         yield return null;
     }
 
-    private IEnumerator animateLED(Renderer LED, bool correct)
+    private IEnumerator AnimateLED(Renderer LED, bool Correct)
     {
         const float duration = .5f;
         var elapsed = 0f;
-        if (!correct)
+        if (!Correct)
         {
             while (elapsed < duration)
             {
@@ -194,24 +183,24 @@ public class OwO_Butons_Script : MonoBehaviour
             LED.material = LEDColors[0];
         }
         else
+        {
             LED.material = LEDColors[2];
+        }
     }
 
-    IEnumerator LightFlash()
+    private IEnumerator LightFlash()
     {
-        string word = _morseword;
-        while (true)
+        string word = _morseWord;
+        while (!_Solve)
         {
             foreach (char c in word)
             {
-                string morse = dictionnary.MorseCode[Array.IndexOf(dictionnary.Alphabet, c)];
+                string morse = Dictionary.MorseCode[Array.IndexOf(Dictionary.Alphabet, c)];
                 foreach (char symbol in morse)
                 {
                     LED.material = LEDColors[3];
-                    //morseLight.SetActive(true);
                     yield return new WaitForSeconds(symbol == '.' ? 0.25f : 0.75f);
                     LED.material = LEDColors[0];
-                    //morseLight.SetActive(false);
                     yield return new WaitForSeconds(0.25f);
                 }
                 yield return new WaitForSeconds(0.75f);
@@ -220,7 +209,7 @@ public class OwO_Butons_Script : MonoBehaviour
         }
     }
 
-    private IEnumerator animateButton(Transform btn, bool _s)
+    private IEnumerator AnimateButton(Transform btn, bool S)
     {
         const float duration = .35f;
         var elapsed = 0f;
@@ -233,26 +222,21 @@ public class OwO_Butons_Script : MonoBehaviour
         {
             yield return null;
             elapsed += Time.deltaTime;
-
-
             btn.localPosition = new Vector3(originalPosition.x, (endValue - startValue) * elapsed / duration + startValue, originalPosition.z);
-
         }
         btn.localPosition = new Vector3(originalPosition.x, originalPosition.y, originalPosition.z);
-        if (_s)
+        if (S)
         {
-
             elapsed = 0f;
             while (elapsed < duration)
             {
                 yield return null;
                 elapsed += Time.deltaTime;
-
-
                 btn.localPosition = new Vector3(originalPosition.x, (-0.05f - startValue) * elapsed / duration + startValue, originalPosition.z);
-
             }
-            ButtonsText[3].text = dictionnary.OwO[_owo];        
+            ButtonsText[3].text = Dictionary.OwO[_owo];
+            LED.material = LEDColors[0];
+            StopAllCoroutines();
         }
     }
 }
